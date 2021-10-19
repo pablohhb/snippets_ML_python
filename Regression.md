@@ -1,11 +1,59 @@
-# Starting point
+# Index:
+### 1. Preparing Data
+
+### 2. Models:
+  - Regression:
+    - Single Models:
+      - Linear Regression
+      - K-Nearest Neighbors Regressor
+      - Decission Tree
+    - Ensemple Models:
+      - Random Forest
+      - Gradient Boosting
+      - XGB Regressor
+  - Classification:
+    - Single Models:
+      - Logistic Regression
+      - K-Nearest Neighbors Classifier
+      - Decission Tree Classifier
+      - Support Vector Machine (SVM)
+    - Ensemble Models:
+      - Random Forest Classifier
+      - Gradient Boosting Tree Classifier
+      - XGB Classifier
+
+### 3. Metrics:
+  - Regression:
+    - MAE
+    - MAPE
+    - RMSE
+    - Correlation
+    - BIAS
+  - Classification:
+    - Accuracy
+    - Precision
+    - Recall
+    - ROC Curve
+    - AUC
+    - F1 Score
+
+### 4. Evaluation:
+  - Train Test Split
+  - Cross Validation
+  - Grid Search
+  - Randomized Grid Search
+ 
+
+# 1. Preparing Data:
 ```python
 #Input
 X = df[[features]] # pandas DataFrame
 # Label
 y = df["target] # pandas Series
 ```
-# Models
+# 2. Models:
+## Regression:
+### Single Models:
 ## Linear Regression
 ```python
 # Load the library
@@ -17,7 +65,7 @@ reg.fit(X,y)
 # Do predictions
 reg.predict([[2540],[3500],[4000]])
 ```
-## K-neighbors
+## K-Nearest Neighbors Regressor
 ```python
 # Load the library
 from sklearn.neighbors import KNeighborsRegressor
@@ -35,6 +83,8 @@ regd = DecisionTreeRegressor(max_depth=3)
 # Fit the data
 regd.fit(X,y)
 ```
+### Ensemble Models:
+## 
 
 # Metrics
 ## MAE
