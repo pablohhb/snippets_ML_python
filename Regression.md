@@ -169,6 +169,7 @@ clf.fit(X, y)
 
 
 # Metrics
+### Regression:
 ## MAE
 ```python
 # Load the scorer
@@ -209,6 +210,44 @@ def bias(pred,y_test):
 return np.mean(pred-y_test)
 # Put the scorer in cross_val_score
 cross_val_score(reg,X,y,cv=5,scoring=make_scorer(bias))
+```
+### Classification:
+## Accuracy
+```python
+# Load the scorer
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test, clr.predict(X_test))
+```
+## Precision
+```python
+# Load the scorer
+from sklearn.metrics import precision_score
+precision_score(y_test,clf.predict(X_test))
+```
+## Recall
+```python
+# Load the scorer
+from sklearn.metrics import recall_score
+recall_score(y_test, clf.predict(X_test))
+```
+## ROC curve
+```python
+# Load the scorer
+from sklearn.metrics import roc_curve
+# Get the probabilities
+pred = clf.best_estimator_.predict_proba(X_test)
+fp,tp,_ = roc_curve(y_test,pred[:,1])
+plt.plot(fp,tp)
+```
+## AUC
+```python
+from sklearn.metrics import auc
+auc(fp,tp)
+```
+## F1 Score
+```python
+from sklearn.metrics import f1_score
+f1_score(y_test, clf.predict(X_test))
 ```
 
 # Evaluation
