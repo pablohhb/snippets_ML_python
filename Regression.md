@@ -6,11 +6,10 @@
     - Single Models:
       - Linear Regression
       - K-Nearest Neighbors Regressor
-      - Decission Tree
+      - Decission Tree Regressor
     - Ensemple Models:
-      - Random Forest
-      - Gradient Boosting
-      - XGB Regressor
+      - Random Forest Regressor
+      - Gradient Boosting Regressor
   - Classification:
     - Single Models:
       - Logistic Regression
@@ -20,13 +19,12 @@
     - Ensemble Models:
       - Random Forest Classifier
       - Gradient Boosting Tree Classifier
-      - XGB Classifier
 
 ### 3. Metrics:
   - Regression:
-    - MAE
-    - MAPE
-    - RMSE
+    - MAE -> Mean Absolute Error
+    - MAPE -> Mean Absolute Percentage Error
+    - RMSE -> Root Mean Squared Error
     - Correlation
     - BIAS
   - Classification:
@@ -60,10 +58,10 @@ y = df["target] # pandas Series
 from sklearn.linear_model import LinearRegression
 # Create an instance of the model
 reg = LinearRegression()
-# Fit the regressor
+# Train the regressor
 reg.fit(X,y)
 # Do predictions
-reg.predict([[2540],[3500],[4000]])
+reg.predict([[x1],[x2],[x3]])
 ```
 ## K-Nearest Neighbors Regressor
 ```python
@@ -71,20 +69,104 @@ reg.predict([[2540],[3500],[4000]])
 from sklearn.neighbors import KNeighborsRegressor
 # Create an instance
 regk = KNeighborsRegressor(n_neighbors=2)
-# Fit the data
+# Train the data
 regk.fit(X,y)
 ```
-## Decision Tree
+## Decision Tree Regressor
 ```python
 # Load the library
 from sklearn.tree import DecisionTreeRegressor
 # Create an instance
 regd = DecisionTreeRegressor(max_depth=3)
-# Fit the data
+# Train the data
 regd.fit(X,y)
 ```
 ### Ensemble Models:
-## 
+## Random Forest Regressor
+```python
+# Load the library
+from sklearn.ensemble import RandomForestRegressor
+# Create an instance
+reg = RandomForestRegressor(max_depth=3,
+                            min_samples_leaf = 20,
+                            n_estimators = 100)
+# Train the data
+reg.fit(X,y)
+```
+## Gradient Boosting Regressor
+```python
+# Load the library
+from sklearn.ensemble import GradientBoostingRegressor
+# Create the instance
+reg = GradientBoostingRegressor(max_depth=4,
+                                min_samples_leaf=20,
+                                n_estimators=100)
+# Train the data
+reg.fit(X,y)
+```
+
+## Classification:
+### Single Models:
+## Logistic Regressor
+```python
+# Load the library
+from sklearn.linear_model import LogisticRegression
+# Create an instance of the classifier
+clf=LogisticRegression()
+# Train the data
+clf.fit(X,y)
+```
+## K-Nearest Neighbors Classifier
+```python
+# Load the library
+from sklearn.neighbors import KNeighborsClassifier
+# Create an instance of the classifier
+clfk = KNeighborsClassifier(n_neighbors=5)
+# Train the data 
+clfk.fit(X, y)
+```
+## Suport Vector Machine (SVN)
+```python
+# Load the library
+from sklearn.svm import SVC
+# Create an instance of the classifier
+clf = SVC(kernel="linear",C=10)
+# Train the data
+clf.fit(X, y)
+```
+## Decission Tree Classifier
+```python
+# Load the library
+from sklearn.tree import DecisionTreeClassifier
+# Create an instance of the classifier
+clft = DecisionTreeClassifier(min_samples_leaf=20, max_depth=10)
+# Train the data
+clft.fit(X, y)
+```
+### Ensemble Models:
+## Random Forest Classifier
+```python
+# Load the library
+from sklearn.ensemble import RandomForestClassifier
+# Create an instance of the classifier
+clf = RandomForestClassifier(max_depth=3,
+                             min_samples_leaf=20,
+                             n_estimators=100)
+# Train the model
+clf.fit(X, y)
+```
+## Gradient Boosting Tree Classifier
+```python
+# Load the library
+from sklearn.ensemble import GradientBoostingClassifier
+# Create an instance of the classifier
+clf = GradientBoostingClassifier(max_depth=4,
+                                   min_samples_leaf=20,
+                                   n_estimators=100)
+# Train the model
+clf.fit(X, y)
+```
+
 
 # Metrics
 ## MAE
@@ -96,7 +178,7 @@ mean_absolute_error(reg.predict(X_test),y_test)
 ```
 ## MAPE
 ```python
-# MAPE is not difined in sklearn; ihas to be created:
+# MAPE is not difined in sklearn; it has to be created:
 np.mean(np.abs(reg.predict(X_test)-y_test)/y_test)
 ```
 ## RMSE
@@ -149,16 +231,32 @@ cross_val_score(reg,X,y,cv=5,scoring="neg_mean_squared_error")
 ```
 ## Grid Search
 ```python
+# Load the library
 from sklearn.model_selection import GridSearchCV
-from sklearn.neighbors import KNeighborsRegressor
-reg_test = GridSearchCV(KNeighborsRegressor(),
-param_grid={"n_neighbors":np.arange(3,50)})
-# Fit will test all of the combinations
-reg_test.fit(X,y)
+# Create an instance of the model (example: with KNN regressor)
+reg = GridSearchCV(KNeighborsRegressor(),
+                   param_grid={"n_neighbors":np.arange(3,50)},
+                   cv = 5,
+                   scoring = "neg_mean_absolute_error")
+ # Train the model
+ reg.fit(X, y)
 
-# Best estimator and best parameters
-reg_test.best_score_
-reg_test.best_estimator_
-reg_test.best_params_
+# Get key info from the model
+reg.best_score_
+reg.best_estimator_
+reg.best_params_
 ```
+
 ## Randomized Search
+```python
+# Load the library
+from sklearn.model_selection import RandomizedSearchCV
+# Create an instance of the model (example: Decission Tree Regressor)
+reg = RandomizedSearchCV(DecisionTreeRegressor(),
+                         param_distributions={"max_depth":[2,3,5,8,10],
+                                              "min_samples_leaf":[5,10,15,20,30,40]},
+                                               cv = 5,
+                                               scoring="neg_mean_absolute_error")
+# Train the model
+reg.fit(X, y)
+```
